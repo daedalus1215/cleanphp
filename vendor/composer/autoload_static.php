@@ -6,7 +6,25 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit5e6c476d1a72975ca10886327618292a
 {
+    public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'ee4cee3195e093bfc91e7754af9eefd5' => __DIR__ . '/..' . '/peridot-php/leo/src/Interfaces/_interface.bdd.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Debug\\' => 24,
+            'Symfony\\Component\\Console\\' => 26,
+        ),
+        'P' => 
+        array (
+            'Psr\\Log\\' => 8,
+            'Peridot\\Scope\\' => 14,
+            'Peridot\\Leo\\' => 12,
+            'Peridot\\' => 8,
+        ),
         'C' => 
         array (
             'CleanPhp\\Invoicer\\' => 18,
@@ -14,10 +32,52 @@ class ComposerStaticInit5e6c476d1a72975ca10886327618292a
     );
 
     public static $prefixDirsPsr4 = array (
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Debug\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/debug',
+        ),
+        'Symfony\\Component\\Console\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/console',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
+        ),
+        'Peridot\\Scope\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/peridot-php/peridot-scope/src',
+        ),
+        'Peridot\\Leo\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/peridot-php/leo/src',
+        ),
+        'Peridot\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/peridot-php/peridot/src',
+        ),
         'CleanPhp\\Invoicer\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
+    );
+
+    public static $prefixesPsr0 = array (
+        'E' => 
+        array (
+            'Evenement' => 
+            array (
+                0 => __DIR__ . '/..' . '/evenement/evenement/src',
+            ),
+        ),
+    );
+
+    public static $classMap = array (
+        'PHP_Timer' => __DIR__ . '/..' . '/phpunit/php-timer/src/Timer.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -25,6 +85,8 @@ class ComposerStaticInit5e6c476d1a72975ca10886327618292a
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit5e6c476d1a72975ca10886327618292a::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit5e6c476d1a72975ca10886327618292a::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit5e6c476d1a72975ca10886327618292a::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit5e6c476d1a72975ca10886327618292a::$classMap;
 
         }, null, ClassLoader::class);
     }
