@@ -7,10 +7,15 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
+    'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
+    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Peridot\\Scope\\' => array($vendorDir . '/peridot-php/peridot-scope/src'),
+    'Peridot\\Plugin\\Watcher\\' => array($vendorDir . '/peridot-php/peridot-watcher-plugin/src'),
     'Peridot\\Leo\\' => array($vendorDir . '/peridot-php/leo/src'),
     'Peridot\\' => array($vendorDir . '/peridot-php/peridot/src'),
     'CleanPhp\\Invoicer\\' => array($baseDir . '/src'),
