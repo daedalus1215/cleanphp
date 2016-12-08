@@ -12,6 +12,11 @@ use CleanPhp\Invoicer\Domain\Entity\Order;
  */
 class InvoiceFactory 
 {
+    /**
+     * 
+     * @param Order $order
+     * @return \CleanPhp\Invoicer\Domain\Entity\Invoice $invoice
+     */
     public function createFromOrder(Order $order)
     {
         $invoice = new Invoice();
