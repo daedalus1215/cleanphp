@@ -24,4 +24,9 @@ class CustomersController extends AbstractActionController
             'customers' => $this->customerRepository->getAll(),
         ];
     }
+    
+    public function newAction()
+    {
+        return ['1' => '1'];
+    }
 }

@@ -16,22 +16,37 @@ return array(
                 'type' => 'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     'route'    => '/',
-                    'defaults' => array(
+                    'defaults' => array(    
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
                     ),
                 ),
             ),            
-            'customers' => array(
-                'type'    => 'Segment',
-                'options' => array(
+            'customers' => [
+                'type' => 'Segment',
+                'options' => [
                     'route'    => '/customers',
-                    'defaults' => array(
+                    'defaults' => [
                         'controller' => 'Application\Controller\Customers',
-                        'action'        => 'index',
-                    ),
-                ),
-            ),                
+                        'action'     => 'index',
+                    ],
+                ],
+                'may_terminate' => true,
+                'child_routes' => [
+                    'new' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/new',
+                            'constraints' => [
+                                'id' => '[0-9]+',
+                            ],
+                            'defaults' => [
+                                'action' => 'new',
+                            ],
+                        ]
+                    ],
+                ],
+            ],
             'Orders' => array(
                 'type'    => 'Segment',
                 'options' => array(
@@ -85,7 +100,7 @@ return array(
                     ),
                 ),
             ),
-        ),
+        )
     ),
     'service_manager' => array(
         'abstract_factories' => array(
