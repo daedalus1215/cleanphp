@@ -1,7 +1,8 @@
 <?php
 namespace CleanPhp\Invoicer\Persistence\Zend\DataTable;
 
-use CleanPhp\Invoicer\Domain\Repository\OrderRepositoryInterface;
+use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
+
 
 
 
@@ -10,7 +11,7 @@ use CleanPhp\Invoicer\Domain\Repository\OrderRepositoryInterface;
  *
  * @author theAdmin
  */
-class CustomerTable extends AbstractDataTable implements OrderRepositoryInterface
+class CustomerTable extends AbstractDataTable implements CustomerRepositoryInterface
 {
     public function getUninvoicedOrders() 
     {

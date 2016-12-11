@@ -27,8 +27,7 @@ return array(
                 'options' => array(
                     'route'    => '/customers',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller\Customers',
-                        'controller'    => 'Index',
+                        'controller' => 'Application\Controller\Customers',
                         'action'        => 'index',
                     ),
                 ),
@@ -94,7 +93,7 @@ return array(
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
         'factories' => array(
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',            
         ),
     ),
     'translator' => array(
@@ -109,7 +108,12 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => Controller\IndexController::class
+            'Application\Controller\Index' => Controller\IndexController::class,            
+        ),
+        'factories' => array(
+            'Application\Controller\Customers' => function($sm) {
+                return new \Application\Controller\CustomersController($sm->getServiceLocator()->get('CustomerTable'));
+            },
         ),
     ),
     'view_manager' => array(
