@@ -9,6 +9,11 @@
 
 namespace Application;
 
+use Application\Controller\CustomersController;
+use Application\Controller\IndexController;
+use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
+use Zend\Stdlib\Hydrator\ClassMethods;
+
 return array(
     'router' => array(
         'routes' => array(
@@ -123,11 +128,15 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => Controller\IndexController::class,            
+            'Application\Controller\Index' => IndexController::class,            
         ),
         'factories' => array(
             'Application\Controller\Customers' => function($sm) {
-                return new \Application\Controller\CustomersController($sm->getServiceLocator()->get('CustomerTable'));
+                return new CustomersController(
+                        $sm->getServiceLocator()->get('CustomerTable'),
+                        new CustomerInputFilter(),
+                        new ClassMethods()
+                        );
             },
         ),
     ),
