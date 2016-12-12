@@ -3,7 +3,7 @@ namespace Application\Controller;
 
 use CleanPhp\Invoicer\Domain\Entity\Customer;
 use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
-use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
+use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\View\Model\ViewModel;
@@ -47,7 +47,7 @@ class CustomersController extends AbstractActionController
             
             if ($this->inputFilter->isValid()) {
                 // Populate Customer object
-                $customer = $this->hydrator->hydrate($this->inputFilter->getValues(), new Customer());
+                $this->hydrator->hydrate($this->inputFilter->getValues(), $customer);
                 // Save Customer
                 $this->customerRepository->begin()->persist($customer)->commit();                
                 // Message Success
@@ -56,9 +56,10 @@ class CustomersController extends AbstractActionController
                 $this->redirect()->toUrl('/customers');
             } else {
                 $this->hydrator->hydrate($this->params()->fromPost(), $customer);
+                $viewModel->setVariable('errors', $this->inputFilter->getMessages());
             }
         }
-        
+            
         $viewModel->setVariable('customer', $customer);
         
         return $viewModel;

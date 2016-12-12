@@ -18,17 +18,12 @@ class Customer extends AbstractEntity
     protected $name;
     protected $email;
     
-    public function getStorage()
-    {
-        return $this->storage;
-    }
-    
     public function getName()
     {
         return $this->name;
     }
     
-    public function setName()
+    public function setName($name)
     {
         $this->name = $name;
         return $this;

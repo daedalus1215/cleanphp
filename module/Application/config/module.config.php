@@ -11,7 +11,7 @@ namespace Application;
 
 use Application\Controller\CustomersController;
 use Application\Controller\IndexController;
-use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
+use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
 return array(
@@ -139,6 +139,11 @@ return array(
                         );
             },
         ),
+    ),
+    'view_helpers' => array(
+        'invokables' => [
+            'ValidationErrors' => 'Application\\View\\Helper\\ValidationErrors',
+        ]
     ),
     'view_manager' => array(
         'display_not_found_reason' => true,

@@ -1,5 +1,5 @@
 <?php
-namespace CleanPhp\Invoicer\Service\InputFilter;
+namespace CleanPhp\Invoicer\Domain\Service\InputFilter;
 
 use Zend\InputFilter\Input;
 use Zend\InputFilter\InputFilter;
