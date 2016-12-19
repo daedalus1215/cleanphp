@@ -46,10 +46,22 @@ return array(
                                 'id' => '[0-9]+',
                             ],
                             'defaults' => [
-                                'action' => 'new',
+                                'action' => 'new-or-edit',
                             ],
                         ]
                     ],
+                    'edit' => [
+                        'type' => 'Segment',
+                        'options' => [
+                            'route' => '/edit/:id',
+                            'constraints' => [
+                                'id' => '[0-9]+'
+                            ],
+                            'defaults' => [
+                                'action' => 'new-or-edit',
+                            ]
+                        ]
+                    ]
                 ],
             ],
             'Orders' => array(
