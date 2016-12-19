@@ -9,7 +9,7 @@ use CleanPhp\Invoicer\Persistence\Zend\DataTable\TableGatewayFactory;
 use Zend\Stdlib\Hydrator\ClassMethods;
 /**
  * Global Configuration Override
- *
+ *  
  * You can use this file for overriding configuration values from modules, etc.
  * You would place values in here that are agnostic to the environment and not
  * sensitive to security.
@@ -58,7 +58,7 @@ return array(
                 return new OrderTable($factory->createGateway(
                         $sm->get('Zend\Db\Adapter\Adapter'),
                         $hydrator,
-                        new Order(),
+                        new \CleanPhp\Invoicer\Domain\Entity\Order(),
                         'orders'
                     ),
                     $hydrator

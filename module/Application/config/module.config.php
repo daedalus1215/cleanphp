@@ -11,6 +11,7 @@ namespace Application;
 
 use Application\Controller\CustomersController;
 use Application\Controller\IndexController;
+use Application\Controller\OrdersController;
 use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
@@ -64,13 +65,12 @@ return array(
                     ]
                 ],
             ],
-            'Orders' => array(
+            'orders' => array(
                 'type'    => 'Segment',
                 'options' => array(
                     'route'    => '/orders',
                     'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller\Orders',
-                        'controller'    => 'Index',
+                        'controller'    => 'Application\Controller\Orders',
                         'action'        => 'index',
                     ),
                 ),
@@ -140,8 +140,8 @@ return array(
     ),
     'controllers' => array(
         'invokables' => array(
-            'Application\Controller\Index' => IndexController::class,            
-        ),
+            'Application\Controller\Index' => IndexController::class,
+        ),        
         'factories' => array(
             'Application\Controller\Customers' => function($sm) {
                 return new CustomersController(
@@ -150,6 +150,9 @@ return array(
                         new ClassMethods()
                         );
             },
+            'Application\Controller\Orders' => function($sm) {
+                return new OrdersController($sm->getServiceLocator()->get('OrderTable'));
+            }
         ),
     ),
     'view_helpers' => array(
