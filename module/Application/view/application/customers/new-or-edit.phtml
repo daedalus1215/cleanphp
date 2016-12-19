@@ -1,18 +1,18 @@
 <div class="page-header clearfix">
     <h2>
-        <?= !empty($this->customer->getId()) ? 'Edit' : 'New'?>Customer
+        <?= !empty($this->customer['id']) ? 'Edit' : 'New'?>Customer
     </h2>
 </div>
 
 <form role="form" action="" method="post">
     <div class="form-group">
         <label for="name">Name:</label>
-        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name" value="<?= $this->customer->getName(); ?>"/>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Enter Name" value="<?= $this->customer['name']; ?>"/>
         <?= $this->validationErrors('name'); ?>
     </div>
     <div class="form-group">
         <label for="email">Email:</label>
-        <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" value="<?= $this->customer->getEmail(); ?>"/>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Enter Email" value="<?= $this->customer['email']; ?>"/>
         <?= $this->validationErrors('email'); ?>
     </div>
     <button type="submit" class="btn btn-primary">Save</button>

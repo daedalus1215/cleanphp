@@ -41,7 +41,6 @@ class CustomersController extends AbstractActionController
     {
         $id = $this->params()->fromRoute('id');
         $customer = $id ? $this->customerRepository->getById($id) : new Customer();
-        var_dump($customer);
         
         $viewModel = new ViewModel();
         
