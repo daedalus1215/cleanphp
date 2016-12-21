@@ -13,6 +13,8 @@ use Application\Controller\CustomersController;
 use Application\Controller\IndexController;
 use Application\Controller\OrdersController;
 use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
+use CleanPhp\Invoicer\Persistence\Hydrator\OrderHydrator;
+use CleanPhp\Invoicer\Persistence\Zend\DataTable\TableGatewayFactory;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
 return array(
@@ -125,8 +127,23 @@ return array(
             'Zend\Log\LoggerAbstractServiceFactory',
         ),
         'factories' => array(
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',            
+            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
+            'OrderHydrator' => function ($sm) {
+                return new OrderHydrator(new ClassMethods(), $sm->get('CustomerTable'));
+            },
+            'OrderTable' => function ($sm) {
+              $factory = new TableGatewayFactory();
+              $hydrator = $sm->get('OrderHydrator');
+              
+              return new \CleanPhp\Invoicer\Persistence\Zend\DataTable\OrderTable(
+                            $factory->createGateway($sm->get('Zend\Db\Adapter\Adapter'), 
+                                $hydrator, 
+                                new Order(), 
+                                'orders'),
+                            $hydrator);
+            },
         ),
+        
     ),
     'translator' => array(
         'locale' => 'en_US',

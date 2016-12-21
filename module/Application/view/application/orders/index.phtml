@@ -19,23 +19,23 @@
     <?php foreach ($this->orders as $order): ?>
     <tr>
         <td>
-            <a href="/orders/view/<?= $this->escapeHtmlAttr($order->getId()) ?>">
-                <?= $this->escapeHtml($order->getId()) ?>
+            <a href="/orders/view/<?= $this->escapeHtmlAttr($order['id']) ?>">
+                <?= $this->escapeHtml($order['id']) ?>
             </a>
         </td>
         <td>
-            <?= $this->escapeHtml($order->getOrderNumber()) ?>
+            <?= $this->escapeHtml($order['order_number']) ?>
         </td>
         <td>
-            <a href="/customers/edit/<?= $this->escapeHtmlAttr($order->getCustomer()->getId()) ?>">
-            <?= $this->escapeHtml($order->getCustomer()->getName()) ?>
-            </a>
+<!--            <a href="/customers/edit/<?= $this->escapeHtmlAttr($order['customer']['id']) ?>">
+            <?= $this->escapeHtml($order['customer']['name']) ?>
+            </a>-->
         </td>
         <td>
-            <?= $this->escapeHtml($order->getDescription()) ?>
+            <?= $this->escapeHtml($order['description']) ?>
         </td>
         <td class="test-right">
-            <?= number_format($order->getTotal(), 2) ?>
+            <?= number_format($order['total'], 2) ?>
         </td>
     </tr>
     <?php endforeach; ?>

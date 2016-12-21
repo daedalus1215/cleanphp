@@ -1,5 +1,4 @@
 <?php
-use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
 
 
 
@@ -7,12 +6,15 @@ use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
 
 describe('InputFilter\Customer', function () {
     beforeEach(function () {
-        $this->inputFilter = new CustomerInputFilter();
+        $this->inputFilter = new \CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter();
     });
     
+    
+    
     describe('isValid()', function () {
-        it('should require a name', function () {
-            $isValid = $this->inputFilter->isValid();
+        it('should require a name', function () {   
+
+            $isValid = $this->inputFilter->setData([])->isValid();
             
             $error = [
                 'isEmpty' => 'Value is required and can\'t be empty'
@@ -23,8 +25,12 @@ describe('InputFilter\Customer', function () {
             expect($messages)->to->equal($error);
         });
         
+        
+        
+        
+        
         it('should require an email', function () {
-           $isValid = $this->inputFilter->isValid();
+           $isValid = $this->inputFilter->setData([])->isValid();
            
            $error = [
                'isEmpty' => 'Value is required and can\'t be empty'
@@ -53,9 +59,7 @@ describe('InputFilter\Customer', function () {
             ];
             
             foreach($scenarios as $scenario) {
-                $this->inputFilter->setData([
-                   'email' => $scenario['value']
-                    ])->isValid();
+                $this->inputFilter->setData(['email' => $scenario['value']])->isValid();
                 
                 $messages = $this->inputFilter
                         ->getMessages()['email'];

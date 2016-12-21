@@ -10,11 +10,12 @@ use Zend\Validator\EmailAddress;
  *
  * @author theAdmin
  */
-class CustomerInputFilter extends InputFilter 
+class CustomerInputFilter extends InputFilter
 {
     public function __construct() 
     {
         $name = (new Input('name'))->setRequired(true);
+        $name->getValidatorChain()->attach(new \Zend\Validator\StringLength(3)); //@todo just cuz I know no other validators atm.
         
         $email = (new Input('email'))->setRequired(true);
         $email->getValidatorChain()->attach(new EmailAddress());

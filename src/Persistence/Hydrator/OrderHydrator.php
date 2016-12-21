@@ -26,12 +26,12 @@ class OrderHydrator implements HydrationInterface
     
     public function extract($object) {}
     
-    public function hydrate(array $data, $order) 
+    public function hydrate($data, $order) 
     {
         $this->wrappedHydrator->hydrate($data, $order);
         
-        if (isset($data['customer_Id'])) {
-            $order->setCustomer($this->customerRepository->getById($data['customer_id']));
+        if (isset($data['customerId'])) {
+            $order->setCustomer($this->customerRepository->getById($data['customerId']));
         }
         
         return $order;

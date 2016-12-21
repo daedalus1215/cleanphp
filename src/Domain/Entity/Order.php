@@ -16,7 +16,7 @@ namespace CleanPhp\Invoicer\Domain\Entity;
 class Order extends AbstractEntity
 {
     protected $customer;
-    protected $orderNumer;
+    protected $order_number;
     protected $description;
     protected $total;
     
@@ -31,17 +31,16 @@ class Order extends AbstractEntity
         return $this;
     }
     
-    public function getOrderNumber()
-    {
-        return $this->orderNumber;
+    function getOrder_number() {
+        return $this->order_number;
     }
-    
-    public function setOrderNumber()
-    {
-        $this->orderNumber = $orderNumber;
+
+    function setOrder_number($order_number) {
+        $this->order_number = $order_number;
         return $this;
     }
-    
+
+        
     public function getDescription()
     {
         return $this->description;
