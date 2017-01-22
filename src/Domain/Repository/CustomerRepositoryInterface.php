@@ -1,12 +1,11 @@
 <?php
+
 namespace CleanPhp\Invoicer\Domain\Repository;
 
 /**
- *
- * @author theAdmin
+ * Interface CustomerRepositoryInterface
+ * @package CleanPhp\Invoicer\Domain\Repository
  */
-interface CustomerRepositoryInterface
-  extends RepositoryInterface
+interface CustomerRepositoryInterface extends RepositoryInterface
 {
-    
 }

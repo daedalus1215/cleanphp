@@ -1,21 +1,19 @@
 <?php
-namespace CleanPhp\Invoicer\Domain\Factory;
 
+namespace CleanPhp\Invoicer\Domain\Factory;
 
 use CleanPhp\Invoicer\Domain\Entity\Invoice;
 use CleanPhp\Invoicer\Domain\Entity\Order;
 
 /**
- * Description of InvoiceFactory
- *
- * @author theAdmin
+ * Class InvoiceFactory
+ * @package CleanPhp\Invoicer\Domain\Factory
  */
-class InvoiceFactory 
+class InvoiceFactory
 {
     /**
-     * 
      * @param Order $order
-     * @return \CleanPhp\Invoicer\Domain\Entity\Invoice $invoice
+     * @return Invoice
      */
     public function createFromOrder(Order $order)
     {
@@ -23,7 +21,7 @@ class InvoiceFactory
         $invoice->setOrder($order);
         $invoice->setInvoiceDate(new \DateTime());
         $invoice->setTotal($order->getTotal());
-        
-        return $invoice;        
+
+        return $invoice;
     }
 }

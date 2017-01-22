@@ -6,8 +6,17 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/library'),
+    'phpDocumentor' => array($vendorDir . '/phpdocumentor/reflection-docblock/src'),
+    'ZendXml' => array($vendorDir . '/zendframework/zendxml/library'),
+    'Vnn' => array($vendorDir . '/vnn/keyper/src'),
+    'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
+    'Symfony\\Component\\Filesystem\\' => array($vendorDir . '/symfony/filesystem'),
+    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
+    'Symfony\\Component\\Config\\' => array($vendorDir . '/symfony/config'),
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
     'Lurker' => array($vendorDir . '/henrikbjorn/lurker/src'),
     'Evenement' => array($vendorDir . '/evenement/evenement/src'),
+    'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src'),
+    'Application\\' => array($baseDir . '/module/Application/src'),
 );

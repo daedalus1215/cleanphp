@@ -1,35 +1,14 @@
 <?php
+
 namespace CleanPhp\Invoicer\Persistence\Zend\DataTable;
 
+use CleanPhp\Invoicer\Domain\Repository\InvoiceRepositoryInterface;
+
 /**
- * Description of InvoiceTable
- *
- * @author theAdmin
+ * Class InvoiceTable
+ * @package CleanPhp\Invoicer\Persistence\Zend\DataTable
  */
-class InvoiceTable extends AbstractDataTable implements \InvoiceRepositoryInterface
+class InvoiceTable extends AbstractDataTable
+    implements InvoiceRepositoryInterface
 {
-    public function color($key, $text) {
-        
-    }
-
-    public function getConfiguration() {
-        
-    }
-
-    public function getEventEmitter() {
-        
-    }
-
-    public function getOutput() {
-        
-    }
-
-    public function init() {
-        
-    }
-
-    public function symbol($name) {
-        
-    }
-
-}   
+}

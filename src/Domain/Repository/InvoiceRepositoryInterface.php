@@ -1,12 +1,12 @@
 <?php
 
-use Peridot\Reporter\ReporterInterface;
+namespace CleanPhp\Invoicer\Domain\Repository;
 
 /**
- *
- * @author theAdmin
+ * Interface InvoiceRepositoryInterface
+ * @package CleanPhp\Invoicer\Domain\Repository
  */
-interface InvoiceRepositoryInterface extends ReporterInterface
+interface InvoiceRepositoryInterface extends RepositoryInterface
 {
-    
+    public function getAll();
 }

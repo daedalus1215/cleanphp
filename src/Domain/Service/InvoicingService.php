@@ -1,41 +1,51 @@
 <?php
+
 namespace CleanPhp\Invoicer\Domain\Service;
 
-
+use CleanPhp\Invoicer\Domain\Factory\InvoiceFactory;
 use CleanPhp\Invoicer\Domain\Repository\OrderRepositoryInterface;
+
 /**
- * Description of InvoicingService
- *
- * @author theAdmin
+ * Class InvoicingService
+ * @package CleanPhp\Invoicer\Domain\Service
  */
-class InvoicingService {
-    protected $orderRepository;
-    protected $invoiceFactory;
-    
+class InvoicingService
+{
     /**
-     * 
-     * @param OrderRepositoryInterface $orderRepository
-     * @param \CleanPhp\Invoicer\Domain\Factory\InvoiceFactory $invoiceFactory
+     * @var OrderRepositoryInterface
      */
-    public function __construct(OrderRepositoryInterface $orderRepository,  $invoiceFactory) 
-    {
+    protected $orderRepository;
+
+    /**
+     * @var InvoiceFactory
+     */
+    protected $invoiceFactory;
+
+    /**
+     * @param OrderRepositoryInterface $orderRepository
+     * @param InvoiceFactory $invoiceFactory
+     */
+    public function __construct(
+        OrderRepositoryInterface $orderRepository,
+        InvoiceFactory $invoiceFactory
+    ) {
         $this->orderRepository = $orderRepository;
         $this->invoiceFactory = $invoiceFactory;
     }
-    
+
+    /**
+     * @return array
+     */
     public function generateInvoices()
     {
         $orders = $this->orderRepository->getUninvoicedOrders();
-        
+
         $invoices = [];
-        if (is_array($orders)) {
-            foreach ($orders as $order) {
-                $invoices[] = $this->invoiceFactory->createFromOrder($order);
-            }            
-        } else if(!empty($orders)) {
-            $invoices[] = $this->invoiceFactory->createFromOrder($orders);
+
+        foreach ($orders as $order) {
+            $invoices[] = $this->invoiceFactory->createFromOrder($order);
         }
-        
+
         return $invoices;
     }
 }

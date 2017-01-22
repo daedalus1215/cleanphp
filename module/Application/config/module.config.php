@@ -1,35 +1,22 @@
 <?php
-/**
- * Zend Framework (http://framework.zend.com/)
- *
- * @link      http://github.com/zendframework/ZendSkeletonApplication for the canonical source repository
- * @copyright Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
- * @license   http://framework.zend.com/license/new-bsd New BSD License
- */
 
-namespace Application;
-
-use Application\Controller\CustomersController;
-use Application\Controller\IndexController;
-use Application\Controller\OrdersController;
-use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
-use CleanPhp\Invoicer\Persistence\Hydrator\OrderHydrator;
-use CleanPhp\Invoicer\Persistence\Zend\DataTable\TableGatewayFactory;
+use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
+use CleanPhp\Invoicer\Service\InputFilter\OrderInputFilter;
 use Zend\Stdlib\Hydrator\ClassMethods;
 
-return array(
-    'router' => array(
-        'routes' => array(
-            'home' => array(
+return [
+    'router' => [
+        'routes' => [
+            'home' => [
                 'type' => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
+                'options' => [
                     'route'    => '/',
-                    'defaults' => array(    
+                    'defaults' => [
                         'controller' => 'Application\Controller\Index',
                         'action'     => 'index',
-                    ),
-                ),
-            ),            
+                    ],
+                ],
+            ],
             'customers' => [
                 'type' => 'Segment',
                 'options' => [
@@ -58,146 +45,103 @@ return array(
                         'options' => [
                             'route' => '/edit/:id',
                             'constraints' => [
-                                'id' => '[0-9]+'
+                                'id' => '[0-9]+',
                             ],
                             'defaults' => [
                                 'action' => 'new-or-edit',
-                            ]
+                            ],
                         ]
-                    ]
+                    ],
+                ]
+            ],
+            'orders' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/orders[/:action[/:id]]',
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Orders',
+                        'action' => 'index',
+                    ],
                 ],
             ],
-            'orders' => array(
-                'type'    => 'Segment',
-                'options' => array(
-                    'route'    => '/orders',
-                    'defaults' => array(
-                        'controller'    => 'Application\Controller\Orders',
-                        'action'        => 'index',
-                    ),
-                ),
-            ),            
-            'invoices' => array(
-                'type'    => 'Segment',
-                'options' => array(
+            'invoices' => [
+                'type' => 'Segment',
+                'options' => [
                     'route'    => '/invoices',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller\Invoices',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-            ),
-            
-            // The following is a route to simplify getting started creating
-            // new controllers and actions without needing to create a new
-            // module. Simply drop new controllers in, and you can access them
-            // using the path /application/:controller/:action
-            'application' => array(
-                'type'    => 'Literal',
-                'options' => array(
-                    'route'    => '/application',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Application\Controller',
-                        'controller'    => 'Index',
-                        'action'        => 'index',
-                    ),
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'default' => array(
-                        'type'    => 'Segment',
-                        'options' => array(
-                            'route'    => '/[:controller[/:action]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            ),
-                            'defaults' => array(
-                            ),
-                        ),
-                    ),
-                ),
-            ),
-        )
-    ),
-    'service_manager' => array(
-        'abstract_factories' => array(
+                    'defaults' => [
+                        'controller' => 'Application\Controller\Invoices',
+                        'action'     => 'index',
+                    ],
+                ],
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'abstract_factories' => [
             'Zend\Cache\Service\StorageCacheAbstractServiceFactory',
             'Zend\Log\LoggerAbstractServiceFactory',
-        ),
-        'factories' => array(
-            'translator' => 'Zend\Mvc\Service\TranslatorServiceFactory',
-            'OrderHydrator' => function ($sm) {
-                return new OrderHydrator(new ClassMethods(), $sm->get('CustomerTable'));
-            },
-            'OrderTable' => function ($sm) {
-              $factory = new TableGatewayFactory();
-              $hydrator = $sm->get('OrderHydrator');
-              
-              return new \CleanPhp\Invoicer\Persistence\Zend\DataTable\OrderTable(
-                            $factory->createGateway($sm->get('Zend\Db\Adapter\Adapter'), 
-                                $hydrator, 
-                                new Order(), 
-                                'orders'),
-                            $hydrator);
-            },
-        ),
-        
-    ),
-    'translator' => array(
+        ],
+        'aliases' => [
+            'translator' => 'MvcTranslator',
+        ],
+    ],
+    'translator' => [
         'locale' => 'en_US',
-        'translation_file_patterns' => array(
-            array(
+        'translation_file_patterns' => [
+            [
                 'type'     => 'gettext',
                 'base_dir' => __DIR__ . '/../language',
                 'pattern'  => '%s.mo',
-            ),
-        ),
-    ),
-    'controllers' => array(
-        'invokables' => array(
-            'Application\Controller\Index' => IndexController::class,
-        ),        
-        'factories' => array(
-            'Application\Controller\Customers' => function($sm) {
-                return new CustomersController(
-                        $sm->getServiceLocator()->get('CustomerTable'),
-                        new CustomerInputFilter(),
-                        new ClassMethods()
-                        );
-            },
-            'Application\Controller\Orders' => function($sm) {
-                return new OrdersController($sm->getServiceLocator()->get('OrderTable'));
-            }
-        ),
-    ),
-    'view_helpers' => array(
+            ],
+        ],
+    ],
+    'controllers' => [
         'invokables' => [
-            'ValidationErrors' => 'Application\\View\\Helper\\ValidationErrors',
+            'Application\Controller\Index' => 'Application\Controller\IndexController'
+        ],
+        'factories' => [
+            'Application\Controller\Customers' => function ($sm) {
+                return new \Application\Controller\CustomersController(
+                    $sm->getServiceLocator()->get('CustomerTable'),
+                    new CustomerInputFilter(),
+                    new ClassMethods()
+                );
+            },
+            'Application\Controller\Orders' => function ($sm) {
+                return new \Application\Controller\OrdersController(
+                    $sm->getServiceLocator()->get('OrderTable'),
+                    $sm->getServiceLocator()->get('CustomerTable'),
+                    new OrderInputFilter(),
+                    $sm->getServiceLocator()->get('OrderHydrator')
+                );
+            },
+            'Application\Controller\Invoices' => function ($sm) {
+                $invoiceTable = $sm->getServiceLocator()->get('InvoiceTable');
+                $invoiceController = new \Application\Controller\InvoicesController($invoiceTable);
+                
+                return $invoiceController;
+            }
+        ],
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            'validationErrors' => 'Application\View\Helper\ValidationErrors',
         ]
-    ),
-    'view_manager' => array(
+    ],
+    'view_manager' => [
         'display_not_found_reason' => true,
         'display_exceptions'       => true,
         'doctype'                  => 'HTML5',
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
-        'template_map' => array(
+        'template_map' => [
             'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
             'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
             'error/404'               => __DIR__ . '/../view/error/404.phtml',
             'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        ),
-        'template_path_stack' => array(
+        ],
+        'template_path_stack' => [
             __DIR__ . '/../view',
-        ),
-    ),
-    // Placeholder for console routes
-    'console' => array(
-        'router' => array(
-            'routes' => array(
-            ),
-        ),
-    ),
-);
+        ],
+    ],
+];

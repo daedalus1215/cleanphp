@@ -1,70 +1,97 @@
 <?php
+
 namespace Application\Controller;
 
 use CleanPhp\Invoicer\Domain\Entity\Customer;
 use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
-use CleanPhp\Invoicer\Domain\Service\InputFilter\CustomerInputFilter;
+use CleanPhp\Invoicer\Service\InputFilter\CustomerInputFilter;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 use Zend\View\Model\ViewModel;
 
 /**
- * Description of CustomersController
- *
- * @author theAdmin
+ * Class CustomersController
+ * @package Application\Controller
  */
 class CustomersController extends AbstractActionController
 {
+    /**
+     * @var CustomerRepositoryInterface
+     */
     protected $customerRepository;
+
+    /**
+     * @var CustomerInputFilter
+     */
     protected $inputFilter;
+
+    /**
+     * @var HydratorInterface
+     */
     protected $hydrator;
-    
+
+    /**
+     * @param CustomerRepositoryInterface $customers
+     * @param CustomerInputFilter $inputFilter
+     * @param HydratorInterface $hydrator
+     */
     public function __construct(
-        CustomerRepositoryInterface $customer, 
-        CustomerInputFilter $inputFilter, 
+        CustomerRepositoryInterface $customers,
+        CustomerInputFilter $inputFilter,
         HydratorInterface $hydrator
-    )
-    {
-        $this->customerRepository = $customer;
+    ) {
+        $this->customerRepository = $customers;
         $this->inputFilter = $inputFilter;
         $this->hydrator = $hydrator;
     }
-    
+
+    /**
+     * @return array
+     */
     public function indexAction()
     {
         return [
-            'customers' => $this->customerRepository->getAll(),
+            'customers' => $this->customerRepository->getAll()
         ];
     }
-    
+
+    /**
+     * @return ViewModel
+     */
     public function newOrEditAction()
     {
+        $viewModel = new ViewModel();
+
         $id = $this->params()->fromRoute('id');
         $customer = $id ? $this->customerRepository->getById($id) : new Customer();
-        
-        $viewModel = new ViewModel();
-        
-        
+
         if ($this->getRequest()->isPost()) {
-            $this->inputFilter->setData($this->params()->fromPost());            
-            
+            $this->inputFilter->setData($this->params()->fromPost());
+
             if ($this->inputFilter->isValid()) {
-                // Populate Customer object
-                $this->hydrator->hydrate($this->inputFilter->getValues(), $customer);
-                // Save Customer
-                $this->customerRepository->begin()->persist($customer)->commit();                
-                // Message Success
+                $this->hydrator->hydrate(
+                    $this->inputFilter->getValues(),
+                    $customer
+                );
+
+                $this->customerRepository
+                    ->begin()
+                    ->persist($customer)
+                    ->commit();
+
                 $this->flashMessenger()->addSuccessMessage('Customer Saved');
-                // Kick back to customers page.
-                $this->redirect()->toUrl('/customers/edit/'.$customer->getId());
+                $this->redirect()->toUrl('/customers/edit/' . $customer->getId());
             } else {
-                $this->hydrator->hydrate($this->params()->fromPost(), $customer);
+                $this->hydrator->hydrate(
+                    $this->params()->fromPost(),
+                    $customer
+                );
                 $viewModel->setVariable('errors', $this->inputFilter->getMessages());
             }
         }
-            
+
         $viewModel->setVariable('customer', $customer);
-        
+
         return $viewModel;
     }
 }

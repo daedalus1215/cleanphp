@@ -1,65 +1,102 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace CleanPhp\Invoicer\Domain\Entity;
 
 /**
- * Description of Order
- *
- * @author theAdmin
+ * Class Order
+ * @package CleanPhp\Invoicer\Domain\Entity
  */
 class Order extends AbstractEntity
 {
+    /**
+     * @var Customer
+     */
     protected $customer;
-    protected $order_number;
+
+    /**
+     * @var string
+     */
+    protected $orderNumber;
+
+    /**
+     * @var string
+     */
     protected $description;
+
+    /**
+     * @var float
+     */
     protected $total;
-    
+
+    /**
+     * @return Customer
+     */
     public function getCustomer()
     {
         return $this->customer;
     }
-    
-    public function setCustomer($customer)
+
+    /**
+     * @param Customer $customer
+     * @return $this
+     */
+    public function setCustomer(Customer $customer)
     {
         $this->customer = $customer;
         return $this;
     }
-    
-    function getOrder_number() {
-        return $this->order_number;
+
+    /**
+     * @return string
+     */
+    public function getOrderNumber()
+    {
+        return $this->orderNumber;
     }
 
-    function setOrder_number($order_number) {
-        $this->order_number = $order_number;
+    /**
+     * @param string $orderNumber
+     * @return $this
+     */
+    public function setOrderNumber($orderNumber)
+    {
+        $this->orderNumber = $orderNumber;
         return $this;
     }
 
-        
+    /**
+     * @return string
+     */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
+    /**
+     * @param string $description
+     * @return $this
+     */
     public function setDescription($description)
     {
         $this->description = $description;
         return $this;
     }
-    
+
+    /**
+     * @return float
+     */
     public function getTotal()
     {
         return $this->total;
     }
-    
+
+    /**
+     * @param float $total
+     * @return $this
+     */
     public function setTotal($total)
     {
         $this->total = $total;
         return $this;
-    }    
+    }
 }

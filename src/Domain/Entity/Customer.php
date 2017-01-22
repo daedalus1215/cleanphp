@@ -1,40 +1,54 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace CleanPhp\Invoicer\Domain\Entity;
 
 /**
- * Description of Customer
- *
- * @author theAdmin
+ * Class Customer
+ * @package CleanPhp\Invoicer\Domain\Entity
  */
-class Customer extends AbstractEntity 
+class Customer extends AbstractEntity
 {
+    /**
+     * @var string
+     */
     protected $name;
+
+    /**
+     * @var string
+     */
     protected $email;
-    
+
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
-    
+
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName($name)
     {
         $this->name = $name;
         return $this;
     }
-    
+
+    /**
+     * @return string
+     */
     public function getEmail()
     {
         return $this->email;
     }
-    
-    public function setEmail($email) 
+
+    /**
+     * @param string $email
+     * @return $this
+     */
+    public function setEmail($email)
     {
         $this->email = $email;
         return $this;

@@ -1,40 +1,84 @@
 <?php
+
 namespace CleanPhp\Invoicer\Persistence\Hydrator;
 
-use Zend\Stdlib\Hydrator\HydrationInterface;
+use CleanPhp\Invoicer\Domain\Entity\Customer;
+use CleanPhp\Invoicer\Domain\Entity\Order;
+use CleanPhp\Invoicer\Domain\Repository\CustomerRepositoryInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 /**
- * Description of OrderHydrator
- *
- * @author theAdmin
+ * Class OrderHydrator
+ * @package CleanPhp\Invoicer\Persistence\Hydrator
  */
-class OrderHydrator implements HydrationInterface
+class OrderHydrator implements HydratorInterface
 {
-    protected $wrappedHydrator;
-    protected $customerRepository;
-    
     /**
-     * 
-     * @param \CleanPhp\Invoicer\Persistence\Hydrator\HydratorInterface $wrappedHydrator
-     * @param \CleanPhp\Invoicer\Persistence\Hydrator\CustomerRepositoryInterface $customerRepository
+     * @var HydratorInterface
      */
-    public function __construct(HydratorInterface $wrappedHydrator, CustomerRepositoryInterface $customerRepository)
-    {
+    protected $wrappedHydrator;
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * @param HydratorInterface $wrappedHydrator
+     * @param CustomerRepositoryInterface $customerRepository
+     */
+    public function __construct(
+        HydratorInterface $wrappedHydrator,
+        CustomerRepositoryInterface $customerRepository
+    ) {
         $this->wrappedHydrator = $wrappedHydrator;
         $this->customerRepository = $customerRepository;
     }
-    
-    public function extract($object) {}
-    
-    public function hydrate($data, $order) 
+
+    /**
+     * @param object $object
+     * @return array
+     */
+    public function extract($object)
     {
-        $this->wrappedHydrator->hydrate($data, $order);
-        
-        if (isset($data['customerId'])) {
-            $order->setCustomer($this->customerRepository->getById($data['customerId']));
+        $data = $this->wrappedHydrator->extract($object);
+
+        if (array_key_exists('customer', $data) &&
+            !empty($data['customer'])) {
+
+            $data['customer_id'] = $data['customer']->getId();
+            unset($data['customer']);
         }
-        
-        return $order;
+
+        return $data;
     }
 
+    /**
+     * @param array $data
+     * @param Order $order
+     * @return Order
+     */
+    public function hydrate(array $data, $order) {
+        $customer = null;
+
+        if (isset($data['customer'])) {
+            $customer = $this->wrappedHydrator->hydrate(
+                $data['customer'],
+                new Customer()
+            );
+            unset($data['customer']);
+        }
+
+        if (isset($data['customer_id'])) {
+            $customer = $this->customerRepository->getById($data['customer_id']);
+        }
+
+        $order = $this->wrappedHydrator->hydrate($data, $order);
+
+        if ($customer) {
+            $order->setCustomer($customer);
+        }
+
+        return $order;
+    }
 }
